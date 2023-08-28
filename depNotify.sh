@@ -39,44 +39,44 @@
 # Auto removal of BOM files to reduce errors
 # Sleep commands instead of policies or other changes being called
 # Quit Key set to command + control + x
-  TESTING_MODE=true # Set variable to true or false
+  TESTING_MODE="$4" # Set variable to true or false
 
 #########################################################################################
 # General Appearance
 #########################################################################################
 # Flag the app to open fullscreen or as a window
-  FULLSCREEN=true # Set variable to true or false
+  FULLSCREEN="$5" # Set variable to true or false
 
 # Banner image can be 600px wide by 100px high. Images will be scaled to fit
 # If this variable is left blank, the generic image will appear. If using custom Self
 # Service branding, please see the Customized Self Service Branding area below
-  BANNER_IMAGE_PATH="/Applications/Self Service.app/Contents/Resources/AppIcon.icns"
+  BANNER_IMAGE_PATH="/Library/Images/Logo-White.png"
 
 # Update the variable below replacing "Organization" with the actual name of your organization. Example "ACME Corp Inc."
-  ORG_NAME="Organization"
+  ORG_NAME="NCSA"
 
 # Main heading that will be displayed under the image
 # If this variable is left blank, the generic banner will appear
-  BANNER_TITLE="Welcome to $ORG_NAME"
+  BANNER_TITLE="Welcome to the $ORG_NAME team!"
 	
 # Update the variable below replacing "email helpdesk@company.com" with the actual plaintext instructions for your organization. Example "call 555-1212" or "email helpdesk@company.com"
-  SUPPORT_CONTACT_DETAILS="email helpdesk@company.com"
+  SUPPORT_CONTACT_DETAILS="https://helpdesk.ncsasports.org"
   
 # Paragraph text that will display under the main heading. For a new line, use \n
 # If this variable is left blank, the generic message will appear. Leave single
 # quotes below as double quotes will break the new lines.
-  MAIN_TEXT='Thanks for choosing a Mac at '$ORG_NAME'! We want you to have a few applications and settings configured before you get started with your new Mac. This process should take 10 to 20 minutes to complete. \n \n If you need additional software or help, please visit the Self Service app in your Applications folder or on your Dock.'
+  MAIN_TEXT="A few applications need to be installed and settings configured before you get started with your new Mac. Make sure that it is plugged in to power and does not lose Internet connectivity or get interrupted during setup!\n\nThis process will take approximately 1 hour, and your Mac will ask to Restart when complete.\n\nIf you need additional software, please visit the Self Service app in your Applications."
 
 # Initial Start Status text that shows as things are firing up
-  INITAL_START_STATUS="Initial Configuration Starting..."
+  INITAL_START_STATUS="Initial Setup Starting..."
 
 # Text that will display in the progress bar
-  INSTALL_COMPLETE_TEXT="Configuration Complete!"
+  INSTALL_COMPLETE_TEXT="Initial Setup Complete!"
 
 # Complete messaging to the end user can ether be a button at the bottom of the
 # app with a modification to the main window text or a dropdown alert box. Default
 # value set to false and will use buttons instead of dropdown messages.
-  COMPLETE_METHOD_DROPDOWN_ALERT=false # Set variable to true or false
+  COMPLETE_METHOD_DROPDOWN_ALERT="$8" # Set variable to true or false
 
 # Script designed to automatically logout user to start FileVault process if
 # deferred enablement is detected. Text displayed if deferred status is on.
@@ -90,8 +90,8 @@
   # Option for dropdown alert box
     COMPLETE_ALERT_TEXT="Your Mac is now finished with initial setup and configuration. Press Quit to get started!"
   # Options if not using dropdown alert box
-    COMPLETE_MAIN_TEXT='Your Mac is now finished with initial setup and configuration.'
-    COMPLETE_BUTTON_TEXT="Get Started!"
+    COMPLETE_MAIN_TEXT="You Mac needs to restart in order to apply a few final settings!\n\nIf you have any IT related questions, feedback, or require support, please visit the Help Desk at $SUPPORT_CONTACT_DETAILS for assistance."
+    COMPLETE_BUTTON_TEXT="Restart"
 
 #########################################################################################
 # Plist Configuration
@@ -114,7 +114,7 @@
 # Help Button Configuration
   # The help button was changed to a popup. Button will appear if title is populated.
     HELP_BUBBLE_TITLE="Need Help?"
-    HELP_BUBBLE_BODY="This tool at $ORG_NAME is designed to help with new employee onboarding. If you have issues, please $SUPPORT_CONTACT_DETAILS"
+    HELP_BUBBLE_BODY="This tool is designed to help with new $ORG_NAME employee onboarding. If you have any IT related questions, feedback, or require support, please visit the Help Desk at $SUPPORT_CONTACT_DETAILS for assistance."
 
 #########################################################################################
 # Error Screen Text
@@ -126,16 +126,15 @@
 # or Activity Monitor to kill DEP Notify.
 
 # Main heading that will be displayed under the image
-  ERROR_BANNER_TITLE="Uh oh, Something Needs Fixing!"
+  ERROR_BANNER_TITLE="Unexpected Error!"
 
 # Paragraph text that will display under the main heading. For a new line, use \n
 # If this variable is left blank, the generic message will appear. Leave single
 # quotes below as double quotes will break the new lines.
-	ERROR_MAIN_TEXT='We are sorry that you are experiencing this inconvenience with your new Mac. However, we have the nerds to get you back up and running in no time! \n \n Please contact IT right away and we will take a look at your computer ASAP. \n \n'	
-	ERROR_MAIN_TEXT="$ERROR_MAIN_TEXT $SUPPORT_CONTACT_DETAILS"	
+  ERROR_MAIN_TEXT="Something went wrong during the setup process and your Mac cannot be used yet!\n\nWe're sorry that you are experiencing issues with your new Mac and want to help fix it as quickly as possible.\n\nPlease visit the Help Desk at $SUPPORT_CONTACT_DETAILS and submit a support ticket, the IT Support Team will contact you shortly after receiving your request."
 	  
 # Error status message that is displayed under the progress bar
-  ERROR_STATUS="Setup Failed"
+  ERROR_STATUS="Setup Failed!"
 
 #########################################################################################
 # Trigger to be used to call the policy
@@ -152,15 +151,21 @@ TRIGGER="event"
 # The policy array must be formatted "Progress Bar text,customTrigger". These will be
 # run in order as they appear below.
   POLICY_ARRAY=(
-    "Installing Adobe Creative Cloud,adobeCC"
-    "Installing Adobe Reader,adobeReader"
-    "Installing Chrome,chrome"
-    "Installing Firefox,firefox"
-    "Installing Zoom,zoom"
-    "Installing NoMAD,nomad"
-    "Installing Office,msOffice"
-    "Installing Webex,webex"
-    "Installing Critical Updates,updateSoftware"
+    #"Installing Jamf Connect (if needed)...,autoinstall-jamfconnect"
+    "Installing Rosetta 2 (if needed)...,autoinstall-rosetta2"
+    "Installing Adobe Acrobat Reader...,autoinstall-adobereaderdc"
+    "Installing Firefox...,autoinstall-firefox"
+    "Installing Google Chrome...,autoinstall-chrome"
+    "Installing Microsoft Teams...,autoinstall-microsoftteams"
+    "Installing OneDrive...,autoinstall-onedrive"
+    "Installing TeamViewer Host...,autoinstall-teamviewerhost"
+    "Installing VLC...,autoinstall-vlc"
+    "Installing Zoom Client for Meetings...,autoinstall-zoom"
+    "Installing Toshiba e-Bridge Duplex Color Printer Drivers...,autoinstall-ebridge"
+    "Installing Microsoft Office and other Mac App Store Apps...,check-mandatoryvppapps"
+    "Removing Default Apps from your Dock...,autodock-removedefaultapps"
+    "Adding Basic Apps to your Dock...,autodock-addbasicapps"
+    #"Checking for and Installing macOS Updates (if needed)...,install-osupdatesnorestart"
   )
 
 #########################################################################################
@@ -173,7 +178,7 @@ TRIGGER="event"
 # where IT staff are the primary people setting up the device. The device will be
 # allowed to sleep again once the DEPNotify app is quit as caffeinate is looking
 # at DEPNotify's process ID.
-  NO_SLEEP=false
+  NO_SLEEP="$6"
 
 #########################################################################################
 # Customized Self Service Branding
@@ -184,7 +189,7 @@ TRIGGER="event"
 # Please note, custom branding is downloaded from Jamf Pro after Self Service has opened
 # at least one time. The script is designed to wait until the files have been downloaded.
 # This could take a few minutes depending on server and network resources.
-  SELF_SERVICE_CUSTOM_BRANDING=false # Set variable to true or false
+  SELF_SERVICE_CUSTOM_BRANDING="$7" # Set variable to true or false
 
 # If using a name other than Self Service with Custom branding. Change the
 # name with the SELF_SERVICE_APP_NAME variable below. Keep .app on the end
@@ -198,16 +203,16 @@ TRIGGER="event"
 # EULA Variables to Modify
 #########################################################################################
 # EULA configuration
-  EULA_ENABLED=false # Set variable to true or false
+  EULA_ENABLED="$9" # Set variable to true or false
 
   # EULA status bar text
-    EULA_STATUS="Waiting on completion of EULA acceptance"
+    EULA_STATUS="Waiting on completion of EULA acceptance..."
 
   # EULA button text on the main screen
-    EULA_BUTTON="Read and Agree to EULA"
+    EULA_BUTTON="Read and Agree to the EULA"
 
   # EULA Screen Title
-    EULA_MAIN_TITLE="Organization End User License Agreement"
+    EULA_MAIN_TITLE="$ORG_NAME End User License Agreement"
 
   # EULA Subtitle
     EULA_SUBTITLE="Please agree to the following terms and conditions to start configuration of this Mac"
@@ -227,7 +232,7 @@ TRIGGER="event"
     REGISTRATION_TITLE="Register Mac at $ORG_NAME"
     
   # Registration status bar text
-    REGISTRATION_STATUS="Waiting on completion of computer registration"
+    REGISTRATION_STATUS="Waiting on completion of computer registration..."
 
   # Registration window submit or finish button text
     REGISTRATION_BUTTON="Register Your Mac"
@@ -443,6 +448,8 @@ TRIGGER="event"
   DEP_NOTIFY_LOG="/var/tmp/depnotify.log"
   DEP_NOTIFY_DEBUG="/var/tmp/depnotifyDebug.log"
   DEP_NOTIFY_DONE="/var/tmp/com.depnotify.provisioning.done"
+  DEP_NOTIFY_TIMEOUT=900
+  
 
 # Pulling from Policy parameters to allow true/false flags to be set. More info
 # can be found on https://www.jamf.com/jamf-nation/articles/146/script-parameters
@@ -502,7 +509,20 @@ TRIGGER="event"
     exit 1
   fi
 
-# Run DEP Notify will run after Apple Setup Assistant
+# Checking to see if DEPNotify is installed before attempting to run
+  until [ -e "$DEP_NOTIFY_APP" ]; do
+    echo "$(date "+%a %h %d %H:%M:%S"): DEPNotify App not found! Waiting for installation to complete." >> "$DEP_NOTIFY_DEBUG"
+    sleep 1
+    DEP_NOTIFY_TIMEOUT=$(($DEP_NOTIFY_TIMEOUT-1))
+    echo "$(date "+%a %h %d %H:%M:%S"): DEPNotify timeout is at $DEP_NOTIFY_TIMEOUT seconds remaining." >> "$DEP_NOTIFY_DEBUG"
+    if [ "$DEP_NOTIFY_TIMEOUT" -eq 0 ]
+      then
+      echo "$(date "+%a %h %d %H:%M:%S"): DEPNotify App not found! Timeout reached, stopping process." >> "$DEP_NOTIFY_DEBUG"
+      exit 1
+    fi
+  done
+
+# Run DEP Notify after Apple Setup Assistant
   SETUP_ASSISTANT_PROCESS=$(pgrep -l "Setup Assistant")
   until [ "$SETUP_ASSISTANT_PROCESS" = "" ]; do
     echo "$(date "+%a %h %d %H:%M:%S"): Setup Assistant Still Running. PID $SETUP_ASSISTANT_PROCESS." >> "$DEP_NOTIFY_DEBUG"
@@ -818,31 +838,44 @@ TRIGGER="event"
 # Nice completion text
   echo "Status: $INSTALL_COMPLETE_TEXT" >> "$DEP_NOTIFY_LOG"
 
+# Closing Self Service to prevent a restart interruption
+SELF_SERVICE_PID=$(pgrep -l "Self Service" | cut -d' ' -f1)
+echo "$(date "+%a %h %d %H:%M:%S"): Self Service needs to be closed before restarting. Killing Self Service PID $SELF_SERVICE_PID." >> "$DEP_NOTIFY_DEBUG"
+kill "$SELF_SERVICE_PID"
+
 # Check to see if FileVault Deferred enablement is active
   FV_DEFERRED_STATUS=$($FDE_SETUP_BINARY status | grep "Deferred" | cut -d ' ' -f6)
 
   # Logic to log user out if FileVault is detected. Otherwise, app will close.
-    if [ "$FV_DEFERRED_STATUS" = "active" ] && [ "$TESTING_MODE" = true ]; then
-      if [ "$COMPLETE_METHOD_DROPDOWN_ALERT" = true ]; then
-        echo "Command: Quit: This is typically where your FV_LOGOUT_TEXT would be displayed. However, TESTING_MODE is set to true and FileVault deferred status is on." >> "$DEP_NOTIFY_LOG"
-      else
-        echo "Command: MainText: TESTING_MODE is set to true and FileVault deferred status is on. Button effect is quit instead of logout. \n \n $FV_COMPLETE_MAIN_TEXT" >> "$DEP_NOTIFY_LOG"
-        echo "Command: ContinueButton: Test $FV_COMPLETE_BUTTON_TEXT" >> "$DEP_NOTIFY_LOG"
-      fi
-    elif [ "$FV_DEFERRED_STATUS" = "active" ] && [ "$TESTING_MODE" = false ]; then
-      if [ "$COMPLETE_METHOD_DROPDOWN_ALERT" = true ]; then
-        echo "Command: Logout: $FV_ALERT_TEXT" >> "$DEP_NOTIFY_LOG"
-      else
-        echo "Command: MainText: $FV_COMPLETE_MAIN_TEXT" >> "$DEP_NOTIFY_LOG"
-        echo "Command: ContinueButtonLogout: $FV_COMPLETE_BUTTON_TEXT" >> "$DEP_NOTIFY_LOG"
-      fi
+  #  if [ "$FV_DEFERRED_STATUS" = "active" ] && [ "$TESTING_MODE" = true ]; then
+  #    if [ "$COMPLETE_METHOD_DROPDOWN_ALERT" = true ]; then
+  #      echo "Command: Quit: This is typically where your FV_LOGOUT_TEXT would be displayed. However, TESTING_MODE is set to true and FileVault deferred status is on." >> "$DEP_NOTIFY_LOG"
+  #    else
+  #      echo "Command: MainText: TESTING_MODE is set to true and FileVault deferred status is on. Button effect is quit instead of logout. \n \n $FV_COMPLETE_MAIN_TEXT" >> "$DEP_NOTIFY_LOG"
+  #      echo "Command: ContinueButton: Test $FV_COMPLETE_BUTTON_TEXT" >> "$DEP_NOTIFY_LOG"
+  #    fi
+  #  elif [ "$FV_DEFERRED_STATUS" = "active" ] && [ "$TESTING_MODE" = false ]; then
+  #    if [ "$COMPLETE_METHOD_DROPDOWN_ALERT" = true ]; then
+  #      echo "Command: Logout: $FV_ALERT_TEXT" >> "$DEP_NOTIFY_LOG"
+  #    else
+  #      echo "Command: MainText: $FV_COMPLETE_MAIN_TEXT" >> "$DEP_NOTIFY_LOG"
+  #      echo "Command: ContinueButtonLogout: $FV_COMPLETE_BUTTON_TEXT" >> "$DEP_NOTIFY_LOG"
+  #    fi
+  #  else
+  #    if [ "$COMPLETE_METHOD_DROPDOWN_ALERT" = true ]; then
+  #      echo "Command: Quit: $COMPLETE_ALERT_TEXT" >> "$DEP_NOTIFY_LOG"
+  #    else
+  #      echo "Command: MainText: $COMPLETE_MAIN_TEXT" >> "$DEP_NOTIFY_LOG"
+  #      echo "Command: ContinueButton: $COMPLETE_BUTTON_TEXT" >> "$DEP_NOTIFY_LOG"
+  #    fi
+  #  fi
+
+  # Show the same message and restart after initial setup regardless of FileVault status
+    if [ "$COMPLETE_METHOD_DROPDOWN_ALERT" = true ]; then
+      echo "Command: Quit: $COMPLETE_ALERT_TEXT" >> "$DEP_NOTIFY_LOG"
     else
-      if [ "$COMPLETE_METHOD_DROPDOWN_ALERT" = true ]; then
-        echo "Command: Quit: $COMPLETE_ALERT_TEXT" >> "$DEP_NOTIFY_LOG"
-      else
-        echo "Command: MainText: $COMPLETE_MAIN_TEXT" >> "$DEP_NOTIFY_LOG"
-        echo "Command: ContinueButton: $COMPLETE_BUTTON_TEXT" >> "$DEP_NOTIFY_LOG"
-      fi
+      echo "Command: MainText: $COMPLETE_MAIN_TEXT" >> "$DEP_NOTIFY_LOG"
+      echo "Command: ContinueButtonRestart: $COMPLETE_BUTTON_TEXT" >> "$DEP_NOTIFY_LOG"
     fi
 
 exit 0
